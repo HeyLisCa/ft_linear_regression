@@ -36,3 +36,4 @@ theta_final, cost_history = gradient_descent(x_b, y, theta, learning_rate, n_ite
 
 np.savetxt('theta_values.txt', theta_final)
 np.savetxt('x_normalized_values.txt', x_normalized)
+np.savetxt('normalization_params.txt', [mean_x, std_x])
