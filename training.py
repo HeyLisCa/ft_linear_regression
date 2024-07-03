@@ -23,9 +23,9 @@ x = data[:, 0].reshape(-1, 1)  # mileage
 y = data[:, 1].reshape(-1, 1)  # price
 m = len(y)
 
-mean_x = np.mean(x, axis=0)
-std_x = np.std(x, axis=0)
-x_normalized = (x - mean_x) / std_x
+x_mean = np.mean(x, axis=0)
+x_std = np.std(x, axis=0)
+x_normalized = (x - x_mean) / x_std
 x_b = np.c_[np.ones((m, 1)), x_normalized]
 theta = np.zeros((2, 1))
 
@@ -36,4 +36,4 @@ theta_final, cost_history = gradient_descent(x_b, y, theta, learning_rate, n_ite
 
 np.savetxt('theta_values.txt', theta_final)
 np.savetxt('x_normalized_values.txt', x_normalized)
-np.savetxt('normalization_params.txt', [mean_x, std_x])
+np.savetxt('normalization_params.txt', [x_mean, x_std])
