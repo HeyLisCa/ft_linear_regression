@@ -9,12 +9,16 @@ def cost_function(x, y, theta):
 
 def grad(x, y, theta):
     m = len(y)
-    return 1 / m * x.T.dot(model(x, theta) - y)
+    errors = model(x, theta) - y
+    tmpθ0 = (1 / m) * np.sum(errors)
+    tmpθ1 = (1 / m) * np.sum(errors * x[:, 1])
+    return np.array([tmpθ0, tmpθ1]).reshape(-1, 1)
 
 def gradient_descent(x, y, theta, learning_rate, n_iterations):
     cost_history = np.zeros(n_iterations)
     for i in range(n_iterations):
-        theta = theta - learning_rate * grad(x, y, theta)
+        gradient = grad(x, y, theta)
+        theta = theta - learning_rate * gradient
         cost_history[i] = cost_function(x, y, theta)
     return theta, cost_history
 
@@ -23,9 +27,10 @@ x = data[:, 0].reshape(-1, 1)  # mileage
 y = data[:, 1].reshape(-1, 1)  # price
 m = len(y)
 
-x_mean = np.mean(x, axis=0)
-x_std = np.std(x, axis=0)
-x_normalized = (x - x_mean) / x_std
+mean_x = np.mean(x, axis=0)
+std_x = np.std(x, axis=0)
+x_normalized = (x - mean_x) / std_x
+
 x_b = np.c_[np.ones((m, 1)), x_normalized]
 theta = np.zeros((2, 1))
 
@@ -35,5 +40,4 @@ n_iterations = 1000
 theta_final, cost_history = gradient_descent(x_b, y, theta, learning_rate, n_iterations)
 
 np.savetxt('theta_values.txt', theta_final)
-np.savetxt('x_normalized_values.txt', x_normalized)
-np.savetxt('normalization_params.txt', [x_mean, x_std])
+np.savetxt('normalization_params.txt', [mean_x, std_x])
