@@ -1,21 +1,8 @@
 import numpy as np
 
-def model(x, theta):
-    return x.dot(theta)
-
-def cost_function(x, y, theta):
-    m = len(y)
-    return 1 / (2 * m) * np.sum((model(x, theta) - y) ** 2)
-
-def grad(x, y, theta):
-    m = len(y)
-    return 1 / m * x.T.dot(model(x, theta) - y)
-
 def gradient_descent(x, y, theta, learning_rate, n_iterations):
-    cost_history = np.zeros(n_iterations)
     for i in range(n_iterations):
-        theta = theta - learning_rate * grad(x, y, theta)
-        cost_history[i] = cost_function(x, y, theta)
+        theta = theta - learning_rate * (1 / len(y) * x.T.dot(x.dot(theta) - y))
     return theta
 
 data = np.genfromtxt('data.csv', delimiter=',', skip_header=1)
