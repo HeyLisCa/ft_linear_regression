@@ -2,7 +2,7 @@ import numpy as np
 
 def predict_price(mileage, theta, x_mean, x_std):
     normalized_mileage = (mileage - x_mean) / x_std
-    return theta[0] + theta[1] * normalized_mileage
+    return theta[0] + theta[1] * normalized_mileage #estimatePrice(mileage) = θ0 + (θ1 ∗ mileage)
 
 theta = np.loadtxt('theta_values.txt')
 x_mean, x_std = np.loadtxt('normalization_params.txt')
