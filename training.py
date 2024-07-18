@@ -1,4 +1,5 @@
 import numpy as np
+import prediction
 
 def gradient_descent(x, y, theta, learning_rate, n_iterations):
     for i in range(n_iterations):

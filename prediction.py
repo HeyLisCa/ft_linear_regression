@@ -1,4 +1,5 @@
 import numpy as np
+import training
 
 def predict_price(mileage, theta, x_mean, x_std):
     normalized_mileage = (mileage - x_mean) / x_std
