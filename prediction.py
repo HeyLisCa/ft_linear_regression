@@ -1,24 +1,33 @@
 import numpy as np
-import training
 
-def predict_price(mileage, theta, x_mean, x_std):
+# Define the function to estimate the price based on mileage
+def estimate_price(mileage, theta, x_mean, x_std):
     normalized_mileage = (mileage - x_mean) / x_std
     return theta[0] + theta[1] * normalized_mileage
 
 
-if (__name__ == "__main__"): 
-    theta = np.loadtxt('theta_values.txt')
-    x_mean, x_std = np.loadtxt('normalization_params.txt')
+if (__name__ == "__main__"):
+    try:
+        # Load the model parameters (theta values) and normalization parameters
+        theta = np.loadtxt('theta_values.txt')
+        x_mean, x_std = np.loadtxt('normalization_params.txt')
+    except Exception as e:
+        print(f"Error loading parameters: {e}")
+        exit(1)
 
     while True:
+        # Prompt the user to enter the mileage of the car
         user_input = input("Enter the mileage of the car: ")
         try:
             mileage = float(user_input)
+            # Check if the mileage is valid (non-negative)
             if mileage < 0:
                 print('Invalid input. Please enter a positive value for the mileage.')
             else:
-                price = predict_price(mileage, theta, x_mean, x_std)
+                # Estimate the price using the loaded model parameters
+                price = estimate_price(mileage, theta, x_mean, x_std)
                 
+                # Validate the estimated price
                 if price < 0:
                     print('Error: The mileage is too high to make a price estimation.')
                 else:
