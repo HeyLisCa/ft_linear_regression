@@ -1,4 +1,8 @@
 import numpy as np
+import signal
+
+# Handle the SIGINT signal
+signal.signal(signal.SIGINT, signal.SIG_DFL)
 
 # Define the function to estimate the price based on mileage
 def estimate_price(mileage, theta, x_mean, x_std):
