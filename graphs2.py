@@ -5,7 +5,7 @@ import numpy as np
 try:
     data = np.genfromtxt('data.csv', delimiter=',', skip_header=1)
     theta = np.loadtxt('theta_values.txt')
-    x_normalized = np.loadtxt('x_normalized_values.txt')
+    x_mean, x_std = np.loadtxt('normalization_params.txt')
 except Exception as e:
         print(f"Error loading data and parameters: {e}")
         exit(1)
@@ -14,6 +14,7 @@ except Exception as e:
 x = data[:,0]
 y = data[:, 1]
 m = len(y) # Number of data points
+x_normalized = (x - x_mean) / x_std
 
 # Prepare data for prediction
 x_b = np.c_[np.ones((m, 1)), x_normalized]

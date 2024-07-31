@@ -40,5 +40,4 @@ theta_final = gradient_descent(x, y, theta, learning_rate, n_iterations, x_mean,
 
 # Save the final parameters and normalization details
 np.savetxt('theta_values.txt', theta_final)
-np.savetxt('x_normalized_values.txt', x)
 np.savetxt('normalization_params.txt', [x_mean, x_std])
