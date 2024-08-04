@@ -15,7 +15,7 @@ except Exception as e:
         exit(1)
 
 # Extract the original mileage (x) and price (y) data from the dataset
-x = data[:,0]
+x = data[:, 0]
 y = data[:, 1]
 m = len(y) # Number of data points
 x_normalized = (x - x_mean) / x_std
