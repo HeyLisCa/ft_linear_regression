@@ -9,12 +9,15 @@ def estimate_price(mileage, theta, x_mean, x_std):
     normalized_mileage = (mileage - x_mean) / x_std
     return theta[0] + theta[1] * normalized_mileage
 
-
-if (__name__ == "__main__"):
+def main():
     try:
         # Load the model parameters (theta values) and normalization parameters
-        theta = np.loadtxt('theta_values.txt')
-        x_mean, x_std = np.loadtxt('normalization_params.txt')
+        theta = np.loadtxt('Outputs/Values/theta_values.txt')
+        x_mean, x_std = np.loadtxt('Outputs/Values/normalization_params.txt')
+
+        # Load the RMSE value calculated during training
+        rmse = np.loadtxt('Outputs/Values/rmse_value.txt')
+
     except Exception as e:
         print(f"Error loading parameters: {e}")
         exit(1)
@@ -35,7 +38,14 @@ if (__name__ == "__main__"):
                 if price < 0:
                     print('Error: The mileage is too high to make a price estimation.')
                 else:
-                    print(f'The estimated price for a car with {mileage} km is {price} euros.')
+                    lower_bound = price - rmse
+                    upper_bound = price + rmse
+                    print(f'The estimated price for a car with {mileage} km is {price:.2f} euros.')
+                    print(f'Confidence interval: between {lower_bound:.2f} and {upper_bound:.2f} euros.')
+
                 break
         except ValueError:
             print('Invalid input. Please enter a numeric value for the mileage.')
+
+if __name__ == '__main__':
+    main()
