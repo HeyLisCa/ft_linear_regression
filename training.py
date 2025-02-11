@@ -64,7 +64,6 @@ def main(data_file):
     # Save RMSE value in Outputs/Values directory
     np.savetxt('Outputs/Values/rmse_value.txt', [rmse])
 
-# Ensure the script runs only if executed directly
 if __name__ == '__main__':
     if len(sys.argv) < 2:
         print("Usage: python training.py data.csv")
