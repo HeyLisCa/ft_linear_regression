@@ -1,7 +1,7 @@
 import numpy as np
 import os
-import pandas as pd
 import sys
+import argparse
 from prediction import estimate_price
 
 # Define the gradient descent function
@@ -19,25 +19,21 @@ def gradient_descent(x, y, theta, learning_rate, n_iterations, x_mean, x_std):
     
     return theta
 
-# Function to compute RMSE (Root Mean Squared Error)
-def compute_rmse(y_true, y_pred):
-    return np.sqrt(np.mean((y_true - y_pred) ** 2))
-
-def main(data_file):
-    # Load the dataset using pandas
+def main(data_file, learning_rate, n_iterations):
+    # Load data
     try:
-        data = pd.read_csv(data_file)
-    except Exception as e:
-        print(f"Error loading data from {data_file}: {e}")
-        exit(1)
+        data = np.genfromtxt(data_file, delimiter=',', skip_header=1)
 
-    # Ensure the Outputs/Values folder exists
+    except Exception as e:
+            print(f"Error loading data: {e}")
+            exit(1)
+
+    # Ensure the Outputs/Values folder exists or create it
     os.makedirs('Outputs/Values', exist_ok=True)
 
-    # Extract features (mileage) and labels (price)
-    x = data.iloc[:, 0].values.reshape(-1, 1)  # mileage
-    y = data.iloc[:, 1].values.reshape(-1, 1)  # price
-    m = len(y)  # number of training examples
+    # Extract the original mileage (x) and price (y) data from the dataset
+    x = data[:, 0]
+    y = data[:, 1]
 
     # Standardize the feature values
     x_mean = np.mean(x, axis=0)
@@ -45,32 +41,37 @@ def main(data_file):
 
     # Initialize parameters for linear regression
     theta = np.zeros((2, 1))
-    learning_rate = 0.01
-    n_iterations = 1000
 
     # Perform gradient descent to optimize theta
     theta_final = gradient_descent(x, y, theta, learning_rate, n_iterations, x_mean, x_std)
-
-    # Compute RMSE on the training set
-    predictions = estimate_price(x, theta_final, x_mean, x_std)
-    rmse = compute_rmse(y, predictions)
 
     # Save the final parameters and normalization details in the Outputs/Values directory
     np.savetxt('Outputs/Values/theta_values.txt', theta_final)
     np.savetxt('Outputs/Values/normalization_params.txt', [x_mean, x_std])
 
-    print(f"Training RMSE: {rmse:.4f}")
-
-    # Save RMSE value in Outputs/Values directory
-    np.savetxt('Outputs/Values/rmse_value.txt', [rmse])
-
 if __name__ == '__main__':
-    if len(sys.argv) < 2:
-        print("Usage: python training.py data.csv")
+    # Create argument parser
+    parser = argparse.ArgumentParser(description="Gradient Descent for Linear Regression")
+
+    parser.add_argument('data_file', type=str, help="Path to the dataset CSV file")
+    parser.add_argument('--lr', type=float, default=0.042, help="Learning rate (default: 0.042)")
+    parser.add_argument('--it', type=int, default=1000, help="Number of iterations (default: 1000)")
+    
+    # Parse the arguments
+    args = parser.parse_args()
+
+    if args.lr < 0:
+        print("Error: Learning rate cannot be negative.")
+        sys.exit(1)
+
+    if args.it < 0:
+        print("Error: Number of iterations cannot be negative.")
         sys.exit(1)
     
-    data_file = sys.argv[1]
-    if not os.path.isfile(data_file):
-        print(f"Error: The dataset file {data_file} does not exist.")
+    if not os.path.isfile(args.data_file):
+        print(f"Error: The dataset file {args.data_file} does not exist.")
         sys.exit(1)
-    main(data_file)
+    
+    print(f"Learning rate: {args.lr}, Number of iterations: {args.it}, Data file: {args.data_file}")
+    
+    main(args.data_file, args.lr, args.it)
