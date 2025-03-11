@@ -5,12 +5,10 @@ import sys
 import os
 
 def main(data_file):
-    # Handle the SIGINT signal
-    signal.signal(signal.SIGINT, signal.SIG_DFL)
-
     # Load data
     try:
         data = np.genfromtxt(data_file, delimiter=',', skip_header=1)
+
     except Exception as e:
             print(f"Error loading data: {e}")
             exit(1)
