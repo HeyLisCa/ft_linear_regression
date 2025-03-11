@@ -10,7 +10,6 @@ def main(data_file):
         data = np.genfromtxt(data_file, delimiter=',', skip_header=1)
         theta = np.loadtxt('Outputs/Values/theta_values.txt')
         x_mean, x_std = np.loadtxt('Outputs/Values/normalization_params.txt')
-
     except Exception as e:
             print(f"Error loading data and parameters: {e}")
             exit(1)
