@@ -5,14 +5,12 @@ import sys
 import os
 
 def main(data_file):
-    # Handle the SIGINT signal
-    signal.signal(signal.SIGINT, signal.SIG_DFL)
-
     # Load data and parameters
     try:
         data = np.genfromtxt(data_file, delimiter=',', skip_header=1)
-        theta = np.loadtxt('theta_values.txt')
-        x_mean, x_std = np.loadtxt('normalization_params.txt')
+        theta = np.loadtxt('Outputs/Values/theta_values.txt')
+        x_mean, x_std = np.loadtxt('Outputs/Values/normalization_params.txt')
+
     except Exception as e:
             print(f"Error loading data and parameters: {e}")
             exit(1)
