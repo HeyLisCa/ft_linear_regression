@@ -19,7 +19,7 @@ def gradient_descent(x, y, theta, learning_rate, n_iterations, x_mean, x_std):
 
         if np.isnan(theta).any() or np.isinf(theta).any():
             print(f"Error: Overflow detected at iteration {i}. Aborting.")
-            break
+            sys.exit(1)
     
     return theta
 
