@@ -35,11 +35,13 @@ def main(data_file):
 
 if __name__ == '__main__':
     if len(sys.argv) < 2:
-        print("Usage: python graphs.py data.csv")
+        print("Usage: python graphs.py <data.csv>")
         sys.exit(1)
     
     data_file = sys.argv[1]
+
     if not os.path.isfile(data_file):
         print(f"Error: The dataset file {data_file} does not exist.")
         sys.exit(1)
+
     main(data_file)

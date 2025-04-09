@@ -24,9 +24,10 @@ def compute_r2(y_true, y_pred):
     return 1 - (ss_residual / ss_total)
 
 def main(data_file):
+    # Load data
     try:
-        # Load the dataset
         data = np.genfromtxt(data_file, delimiter=',', skip_header=1)
+
     except Exception as e:
         print(f"Error loading test data: {e}")
         exit(1)
@@ -35,6 +36,7 @@ def main(data_file):
     try:
         theta = np.loadtxt('Outputs/Values/theta_values.txt')
         x_mean, x_std = np.loadtxt('Outputs/Values/normalization_params.txt')
+
     except Exception as e:
         print(f"Error loading model parameters: {e}")
         exit(1)
@@ -74,7 +76,7 @@ def main(data_file):
 
 if __name__ == '__main__':
     if len(sys.argv) < 2:
-        print("Usage: python evaluate.py data.csv")
+        print("Usage: python evaluate.py <data.csv>")
         sys.exit(1)
 
     data_file = sys.argv[1]

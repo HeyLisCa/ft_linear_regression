@@ -10,8 +10,8 @@ def estimate_price(mileage, theta, x_mean, x_std):
     return theta[0] + theta[1] * normalized_mileage
 
 def main():
+    # Load the trained model parameters
     try:
-        # Load the trained model parameters
         theta = np.loadtxt('Outputs/Values/theta_values.txt')
         x_mean, x_std = np.loadtxt('Outputs/Values/normalization_params.txt')
 
@@ -38,6 +38,7 @@ def main():
                     print(f'The estimated price for a car with {mileage} km is {price:.2f} euros.')
 
                 break
+
         except ValueError:
             print('Invalid input. Please enter a numeric value for the mileage.')
 

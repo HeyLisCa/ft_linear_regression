@@ -10,6 +10,7 @@ def main(data_file):
         data = np.genfromtxt(data_file, delimiter=',', skip_header=1)
         theta = np.loadtxt('Outputs/Values/theta_values.txt')
         x_mean, x_std = np.loadtxt('Outputs/Values/normalization_params.txt')
+
     except Exception as e:
             print(f"Error loading data and parameters: {e}")
             exit(1)
@@ -43,11 +44,13 @@ def main(data_file):
 
 if __name__ == '__main__':
     if len(sys.argv) < 2:
-        print("Usage: python graphs2.py data.csv")
+        print("Usage: python graphs2.py <data.csv>")
         sys.exit(1)
     
     data_file = sys.argv[1]
+
     if not os.path.isfile(data_file):
         print(f"Error: The dataset file {data_file} does not exist.")
         sys.exit(1)
+
     main(data_file)

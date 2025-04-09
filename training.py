@@ -16,6 +16,10 @@ def gradient_descent(x, y, theta, learning_rate, n_iterations, x_mean, x_std):
         
         theta[0] -= tmp_theta0
         theta[1] -= tmp_theta1
+
+        if np.isnan(theta).any() or np.isinf(theta).any():
+            print(f"Error: Overflow detected at iteration {i}. Aborting.")
+            break
     
     return theta
 
@@ -53,9 +57,9 @@ if __name__ == '__main__':
     # Create argument parser
     parser = argparse.ArgumentParser(description="Gradient Descent for Linear Regression")
 
-    parser.add_argument('data_file', type=str, help="Path to the dataset CSV file")
+    parser.add_argument('dataset_file', type=str, help="Path to the dataset CSV file")
     parser.add_argument('--lr', type=float, default=0.042, help="Learning rate (default: 0.042)")
-    parser.add_argument('--it', type=int, default=1000, help="Number of iterations (default: 1000)")
+    parser.add_argument('--it', type=int, default=500, help="Number of iterations (default: 500)")
     
     # Parse the arguments
     args = parser.parse_args()
@@ -68,10 +72,10 @@ if __name__ == '__main__':
         print("Error: Number of iterations cannot be negative.")
         sys.exit(1)
     
-    if not os.path.isfile(args.data_file):
-        print(f"Error: The dataset file {args.data_file} does not exist.")
+    if not os.path.isfile(args.dataset_file):
+        print(f"Error: The dataset file {args.dataset_file} does not exist.")
         sys.exit(1)
     
-    print(f"Learning rate: {args.lr}, Number of iterations: {args.it}, Data file: {args.data_file}")
+    print(f"Learning rate: {args.lr}, Number of iterations: {args.it}, Data file: {args.dataset_file}")
     
-    main(args.data_file, args.lr, args.it)
+    main(args.dataset_file, args.lr, args.it)
